@@ -18,6 +18,7 @@ type Client struct {
 	AskSuffix    string
 	ShowSuffix   string
 	UpdateSuffix string
+	httpClient   *http.Client
 }
 
 func NewClient() *Client {
@@ -32,6 +33,7 @@ func NewClient() *Client {
 	c.AskSuffix = "askstories.json"
 	c.ShowSuffix = "showstories.json"
 	c.UpdateSuffix = "updates.json"
+	c.httpClient = &http.Client{}
 	return &c
 }
 
@@ -52,10 +54,10 @@ func NewClient() *Client {
 // }
 
 func (c *Client) GetResource(url string) ([]byte, error) {
-	httpClient := &http.Client{}
+	// httpClient := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
-	req.Close = true
-	resp, err := httpClient.Do(req)
+	// req.Close = true
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
